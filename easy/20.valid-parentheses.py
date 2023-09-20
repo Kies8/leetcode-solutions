@@ -1,19 +1,18 @@
 class Solution:
     def isValid(self, s: str) -> bool:
+        close = {
+            "(": ")",
+            "[": "]",
+            "{": "}",
+        }
         stack = []
-        if len(s) <= 1:
-            return False
+
         for char in s:
-            if char in ["(", "[", "{"]:
-                stack.append(char)
+            if char in close:
+                stack.append(close[char])
+            elif stack and char in stack[-1]:
+                stack.pop()
             else:
-                if not stack:
-                    return False
-                if (char == ')' and stack[-1] == '(') or (char == '}' and stack[-1] == '{') or (char == ']' and stack[-1] == '['):
-                    stack.pop()
-                else:
-                    return False
+                return False
+
         return not stack
-    
-solution = Solution().isValid("(]")
-print(solution)
